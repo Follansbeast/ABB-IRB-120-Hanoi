@@ -13,3 +13,9 @@ TODO
     Test robot motion commands
     Create game end conditions menu
     Add SOLO mode
+    Save/restore state data into HOME
+    Save modules into HOME for automatic loading
+    Loading/unloading of modules for work object and tool definitions to limit memory using when not performing these activities
+        Most math modules
+        
+    

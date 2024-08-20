@@ -69,13 +69,13 @@ MODULE CM_IO
     ENDPROC
     
     FUNC bool IO_GET_DI (VAR IO_signaldi signal)
-        IF IO_USE_MOCK() return DInput(signal.signal) > 0;
-        return DOutput(signal.signal_mock) > 0;
+        IF IO_USE_MOCK() RETURN DOutput(signal.signal_mock) > 0;
+        RETURN DInput(signal.signal) > 0;
     ENDFUNC
     
     FUNC num IO_GET_AI (VAR IO_signalai signal)
-        IF IO_USE_MOCK() return AInput(signal.signal);
-        return AOutput(signal.signal_mock);
+        IF IO_USE_MOCK() RETURN AOutput(signal.signal_mock);
+        RETURN AInput(signal.signal);
     ENDFUNC
     
     FUNC bool IO_GET_DO (VAR IO_signalDO signal)
