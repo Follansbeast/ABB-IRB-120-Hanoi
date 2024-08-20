@@ -1,0 +1,15 @@
+TODO
+    Create data for number_props including calibration angle
+    Integrate base plane data into work object data
+    Least squares cylinder
+    Peg work object definition
+    Disc mover TCP calibration.
+    Movement speed
+    Disc mover actuation speed
+    Fix up main menu to reflect final configuration
+    Finish ToH algorithm
+    Signals for interrobot communication
+    Test interrobot communication and resulting motion
+    Test robot motion commands
+    Create game end conditions menu
+    Add SOLO mode

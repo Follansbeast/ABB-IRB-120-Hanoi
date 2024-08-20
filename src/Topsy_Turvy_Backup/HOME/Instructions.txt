@@ -1,0 +1,153 @@
+Supplies
+    - Probe Tool
+    - Calibration Object
+    - Disc Mover Tool
+    - Tools for mounting/unmounting robot tools
+    - Calibration Disc
+    - Calipers
+
+1. Define Probe
+    The probe is a simple tool used to define geometric aspects of the system, such as work objects.
+    
+    1.1 Install Probe on robot. Ensure this is done in a repeatable way, ideally with dowel pins or similar.
+        Ensure that a calibration object exists for tool calibration. My preferences is a 0.25" diameter metal rod ground to an acute point and mounted securely within the robot's reach.
+        This is dangerous! Unmount and put away when not in use. Repeatable positioning is unimportant, but it must not move during TCP calibration, even if bumped by the robot.
+        A vise works.
+        
+    1.2 Adjust LoadID calibration angle. LoadID does some auto movements. Ordinarilly will go to joint position [0,0,0,0,0,0].
+        If angle is altered, it will alter this position about joint 1. This is useful if you want this load ID in a specific location.
+        Please inform if the motion to the load detection position is not desirable. It can be altered to avoid obstacles, but right now, nothing is really defined in the space.    
+        Setup -> Station -> Adjust LoadID Calibration Angle
+    
+    1.3 Calibrate Load of Probe
+        Setup -> Station -> Probe Tool Setup -> Calibrate Tool Load
+        Automatic. Follow Prompts.
+        
+    1.4 Calibrate TCP of Probe
+        Setup -> Station -> Probe Tool Setup -> Calibrate Tool Center Point
+        Select each point and press define to change.
+        Following the prompts, jog so that the probe touches the tip of the calibration object (tip to tip) as close as possible.
+        Use of the 'fine' motion mode is suggested.
+        Your goal here is to get the positions and orientations of each robot location to be as far as possible from each other. Think the corners of a tetrahedron.
+        This uses a built in function to perform a least squares spherical fit to determine the tool vector.
+        
+2. Define Base Plane User Frame
+    The base plane user frame identifies the entire game in space. The peg definitions are built from this base plane.
+    This base plane should be defined in a very consistent manner. The base plane of the game should be used for the plane measurements.
+    The three points used for the origin definition should be along very repeatable lines, such as perpendicular edges that are very crisp.
+    A line is created along the two Y points projected onto the plane. An origin is created by the intersection of a perpendicular line that passes through the X point projected onto the plane.
+    
+    2.1 Define Game Plane and Origin
+        Setup -> Station -> Set Game Plane and Origin
+        Similar to before, this uses jog points.
+        Pick points along crisp repeatable edges for the axis points. They do not need to be on the plane.
+        Pick 10 points on the plane for the others. A good smattering accross the surface is best.
+        If 10 is too many points, please let me know and we can change this. This is what I've used previously to get very good data accross a surface.
+
+3. Define Peg Work Objects
+    Setup -> Pegs
+    The peg work objects are defined from the base plane user frame. This MUST BE SET before defining peg work objects.
+    This uses the probe to define a least squares best fit cylinder axis. The probe also defines a top point, which should be the highest point on the peg.
+    This point defines a plane perpendicular to the axis. The intersection of the axis and the plane defines the origin.
+    
+*** We are done with the probe tool at this point. It should be stored for later use.***
+*** Load the disc mover tool onto the robot***
+
+4. Define disc mover tool
+    Setup -> Station -> Disc Mover Tool Setup
+    There is a good amount of flexibility built into the disc mover tool definition. This allows for a variety of tool types.
+    
+    4.1. Calibrate LoadID. This will use the same LoadID sequence from before and the same calibration angle.
+    
+    4.2 Define actuation parameters of the disc mover tool
+        Whichever sensors and actuators are available, they should be activated/deactivated as appropriate.
+        Connecting these sesnors is outside the scope of these instructions.
+        For actuators that must move to actuate (spatula type), ignore defining the actuation motion for now, but activate the setting.
+        
+    4.3 Calibrate TCP.
+        This is done by loading the Calibration Disc onto the tool and actuating it. The Calibration Disc should be securely held by the tool.
+        For a spatula type tool, it can be secured in place with thin double stick tape.
+        The Calibration Disc should be the same thickness as the smallest disc and have a pointy tip at the bottom.
+        This pointy tip is your calibration point for performing the 4 point calibration.
+        Using calipers, measure the thickness of the disc and the thickness of the disc where the tip is to get the tip height.
+        The orientation of the tool is assumed to be 'perfect' to the arm as defined by CAD.
+        This orientation can be adjusted. 
+        
+    4.4 *OPTIONAL* Set Actuation Motion.
+        Robot will move tool w/ disc simulator over the top of peg 1.
+        Set motion parameters and toggle actuation to move tool in and out of actuation motion.
+        Validate that tool moves in the correct direction and distance.
+
+5. Set Peg Motion Clearance
+    Setup -> Station -> Set Peg Motion Clearance
+    This determines how far above the pegs the robot will operate. In theory, the program should be able to run with a very minimal clearance, but 25mm or so is recommended to start.
+    This can be adjusted at any time to alter the behavior of the robot.
+
+6. Set disc movement speeds
+    Setup -> Station -> Disc Move Speed
+    Determines how fast the robot moves when moving discs
+
+7. Set disc thicknesses
+    Setup -> Disc Thicknesses
+    Measure the discs w/ calipers in a couple places and take the average.
+
+8. Set game parameters
+    Setup -> Game Setup
+    A game is defined by the positions of the discs. Because smaller discs must always be on top of larger discs, all that needs to be defined are what pegs the discs are on.
+    
+    Current can be any position.
+    End1 can be any position.
+    End2 can be any position.
+    End3 can be any position.
+    
+    End conditions
+        Positions, how many ends to go to before completing a cycle.
+        Single / Continuous.
+        
+    Example:
+        End1 with all on peg 1, end2 w/ peg2, end3 w/ peg3.
+        3 Positions, Continuous. 
+    
+        This will solve to End1, then cycle between all 3 pegs in a continuous manner.
+    
+9. Station Control Status
+    Setup -> Toggle Control Status
+    If the controller is in SOLO, it will work alone to finish the game.
+    If the controller is in CONTROLLER, it will handshake with the other robot to complete the game together.
+        This robot will retain the state of the game. The other robot will respond to move commands to assist.
+    If the controller is in WORKER, it will handshake with the other robot to complete the game together.
+        This robot will listen for commands and move when told to.
+    
+10. Multirobot coordination.
+    If this robot is in CONTROLLER mode
+        Controller PEG 1.
+            Controller will make moves from Peg 1 and to Peg 1 from Peg 2.
+            Worker will make moves from Peg 3 and to Peg 3 from Peg 2.
+        Controller PEG 3.
+            Same as above, but controller uses Peg 3.
+        Every Other.
+            Robots switch between moves.
+        Random
+            Random robot is chosen to perform the move.
+
+11. *OPTIONAL* Set up other robot to assist
+
+12. Main Menu Options
+    Manual Solve, Solo
+        Robot is in SOLO mode.
+        User enters commands on pendant and robot performs motions.
+    Manual Solve, Ready CONTROLLER Mode.
+        Robot is in controller mode. Readies robot to handshake with other robot and issue commands.
+        User enters commands on pendant and robots perform motions.
+    Manual Solve, Ready WORKER Mode.
+        Robot is in worker mode. Readies robot to handshake with other robot and receive commands.
+        User enters commands on pendant and robots perform motions.
+    Auto Solve, Solo
+        Robot is in SOLO mode.
+        Automatically solved according to game settings in setup.
+    Auto Solve, Ready CONTROLLER Mode.
+        Robot is in controller mode. Readies robot to handshake with other robot and issue commands.
+        Automatically solved according to game settings in setup.
+    Auto Solve, Ready WORKER Mode.
+        Robot is in worker mode. Readies robot to handshake with other robot and receive commands.
+        Automatically solved according to game settings in setup.
