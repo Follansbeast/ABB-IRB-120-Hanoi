@@ -57,20 +57,20 @@ MODULE M_Motion
                 to_height_clearance := station.peg_clearance;
         ENDTEST
 
-        motion_SHAFT_REFERENCED_MOVE station.ee, from_peg, from_height_clearance;
-        motion_SHAFT_REFERENCED_MOVE station.ee, from_peg, from_height_actuate;
+        motion_PEG_REFERENCED_MOVE station.ee, from_peg, from_height_clearance;
+        motion_PEG_REFERENCED_MOVE station.ee, from_peg, from_height_actuate;
         ee_SET_ACTUATOR station.ee;
-        motion_SHAFT_REFERENCED_MOVE station.ee, from_peg, from_height_clearance_with_disc;
+        motion_PEG_REFERENCED_MOVE station.ee, from_peg, from_height_clearance_with_disc;
         disc_arr_MOVE_DISC disc_arr, selected_disc, 0;
         
-        motion_SHAFT_REFERENCED_MOVE station.ee, to_peg, to_height_clearance_with_disc;
-        motion_SHAFT_REFERENCED_MOVE station.ee, to_peg, to_height_release;
+        motion_PEG_REFERENCED_MOVE station.ee, to_peg, to_height_clearance_with_disc;
+        motion_PEG_REFERENCED_MOVE station.ee, to_peg, to_height_release;
         ee_RELEASE_ACTUATOR station.ee;
         disc_arr_MOVE_DISC disc_arr, selected_disc, peg_number_to;
-        motion_SHAFT_REFERENCED_MOVE station.ee, to_peg, to_height_clearance;
+        motion_PEG_REFERENCED_MOVE station.ee, to_peg, to_height_clearance;
     ENDPROC
     
-    PROC motion_SHAFT_REFERENCED_MOVE (VAR c_ee end_effector, VAR c_peg peg, num height)
+    PROC motion_PEG_REFERENCED_MOVE (VAR c_ee end_effector, VAR c_peg peg, num height)
         VAR robtarget target:=[[0,0,0],[1,0,0,0],[0,0,1,0],[9E9,9E9,9E9,9E9,9E9,9E9]];
         target := Offs(target, 0, 0, height);
         work_object := peg.wobj;

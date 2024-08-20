@@ -1,4 +1,4 @@
-MODULE CM_Value_Properties (NOSTEPIN)
+MODULE CM_Num_Properties (NOSTEPIN)
     
     RECORD c_num_props
         num max;

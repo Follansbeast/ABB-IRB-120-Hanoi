@@ -19,25 +19,25 @@ MODULE M_Motion_T
         current_work_object := peg.wobj;
         current_tool := end_effector.tool_data;
         
-        motion_SHAFT_REFERENCED_MOVE end_effector, peg, 0;
+        motion_PEG_REFERENCED_MOVE end_effector, peg, 0;
         WaitRob \InPos;
         WaitRob \ZeroSpeed;
         WaitTime 1;
         target_1 := CRobT (\Tool:=current_tool, \WObj:=current_work_object);
         
-        motion_SHAFT_REFERENCED_MOVE end_effector, peg, 100;
+        motion_PEG_REFERENCED_MOVE end_effector, peg, 100;
         WaitRob \InPos;
         WaitRob \ZeroSpeed;
         WaitTime 1;
         target_2 := CRobT (\Tool:=current_tool, \WObj:=current_work_object);
         
-        motion_SHAFT_REFERENCED_MOVE end_effector, peg, 200;
+        motion_PEG_REFERENCED_MOVE end_effector, peg, 200;
         WaitRob \InPos;
         WaitRob \ZeroSpeed;
         WaitTime 1;
         target_3 := CRobT (\Tool:=current_tool, \WObj:=current_work_object);
         
-        motion_SHAFT_REFERENCED_MOVE end_effector, peg, 0;
+        motion_PEG_REFERENCED_MOVE end_effector, peg, 0;
         WaitRob \InPos;
         WaitRob \ZeroSpeed;
         target_1 := CRobT (\Tool:=current_tool, \WObj:=current_work_object);
