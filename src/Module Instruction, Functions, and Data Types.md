@@ -3,7 +3,9 @@
 
 # Instructions
 
-<hr style="height: 5px; background-color: black; border: none; margin-top: 40px; margin-bottom: 0 px;" />
+<br>
+
+---
 
 ## IO_CONNECT_DI_WITH_MOCK- Define Digital Input Signal and Mock with Alias Name
 ### Module: CM_IO
@@ -52,8 +54,10 @@ IO_CONNECT_DI_WITH_MOCK (VAR signaldi from_signal, VAR signaldo from_signal_mock
 |----------|----------|
 | IO_Signaldi | [IO_Signaldi](#IO_signaldi)   |
 
+<br>
+<br>
 
-<hr style="height: 5px; background-color: black; border: none; margin-top: 40px; margin-bottom: 0 px;" />
+---
 
 ## IO_CONNECT_DO
 
