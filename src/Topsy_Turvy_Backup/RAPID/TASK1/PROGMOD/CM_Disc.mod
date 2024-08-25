@@ -2,27 +2,27 @@ MODULE CM_Disc
     
     RECORD c_disc
         num thickness;
+        num peg_current;
+        num peg_end_1;
+        num peg_end_2;
+        num peg_end_3;
+        num peg_end_4;
+        num peg_end_5;
+        num peg_end_6;
+        num peg_end_7;
+        num peg_end_8;
+        num peg_end_9;
+        num peg_end_10;
+    ENDRECORD
+    
+    RECORD c_disc_move
+        num disc;
         num peg;
     ENDRECORD
     
-    LOCAL CONST c_num_props disc_props := [0,0,0,"","",""];
-    
-    PROC disc_arr_MENU (INOUT c_disc disc_arr{*})
-        VAR menu_selection selection;
-        VAR string menu_items{G_number_of_discs};
-        VAR num peg_number;
-        VAR string peg_number_string;
-        
-        FOR i FROM 1 TO Dim(menu_items, 1) DO
-            menu_items{i} := "Disc " + NumToStr(i,0) + ": " + NumToStr(disc_arr{i}.thickness,0) + " mm";
-        ENDFOR
-        
-        WHILE TRUE DO
-            selection := menu_LIST ("Disc Thickness Setup", menu_items, ["SELECT", "BACK"], \previous_selection := selection);
-            IF selection.button_selection = 2 RETURN;
-            num_props_MENU disc_arr{selection.list_selection}.thickness, disc_props;
-        ENDWHILE
-    ENDPROC
+    RECORD c_disc_props
+        c_num_props thickness_props;
+    ENDRECORD
     
     FUNC string disc_arr_GET_DISC_SUMMARY (INOUT c_disc disc_arr{*}, \num peg_number)
         VAR string peg_summary{G_number_of_pegs + 1};
@@ -31,7 +31,7 @@ MODULE CM_Disc
         
         VAR num selected_peg;
         FOR i FROM 1 TO dim(disc_arr,1) DO
-            selected_peg := disc_arr{i}.peg;
+            selected_peg := disc_arr{i}.peg_current;
             IF 0 < selected_peg AND selected_peg <= dim(peg_summary,1) - 1 THEN
                 peg_summary{selected_peg} := peg_summary{selected_peg} + NumToStr(i,0) + ", ";
             ELSE
@@ -58,7 +58,7 @@ MODULE CM_Disc
     
     FUNC num disc_arr_GET_TOP_DISC (c_disc disc_arr{*}, num peg_number)
         FOR i FROM Dim(disc_arr, 1) TO 1 DO
-            IF disc_arr{i}.peg = peg_number RETURN i;
+            IF disc_arr{i}.peg_current = peg_number RETURN i;
         ENDFOR
         RETURN 0;
     ENDFUNC
@@ -74,7 +74,7 @@ MODULE CM_Disc
     FUNC num disc_arr_GET_STACK_HEIGHT (c_disc disc_arr{*}, num peg_number)
         VAR num stack_height := 0;
         FOR i FROM 1 to Dim(disc_arr, 1) DO
-            IF disc_arr{i}.peg = peg_number stack_height := stack_height + disc_arr{i}.thickness;
+            IF disc_arr{i}.peg_current = peg_number stack_height := stack_height + disc_arr{i}.thickness;
         ENDFOR
         RETURN stack_height;
     ENDFUNC
@@ -82,7 +82,7 @@ MODULE CM_Disc
     FUNC bool disc_arr_LEGAL_TO_MOVE_DISC (c_disc disc_arr {*}, num disc_value, num peg_number_to, \bool override)
         VAR bool override_value := FALSE;
         VAR num peg_number_from;
-        peg_number_from := disc_arr{disc_value}.peg;
+        peg_number_from := disc_arr{disc_value}.peg_current;
         IF Present(override) AND override = TRUE override_value := TRUE;
         
         ! Not on peg
@@ -108,13 +108,14 @@ MODULE CM_Disc
         IF Present(override) AND override = TRUE override_value := TRUE;
         
         IF disc_arr_LEGAL_TO_MOVE_DISC(disc_arr, disc_value, peg_number, \override:= override_value) THEN
-            disc_arr{disc_value}.peg := peg_number;
+            disc_arr{disc_value}.peg_current := peg_number;
         ENDIF
     ENDPROC
     
     PROC disc_arr_REMOVE_ALL_DISCS (INOUT c_disc disc_arr{*})
         FOR i FROM 1 TO Dim(disc_arr, 1) DO
-             disc_arr{i}.peg := 0;
+             disc_arr{i}.peg_current := 0;
         ENDFOR
     ENDPROC
+    
 ENDMODULE

@@ -40,6 +40,7 @@ MODULE M_Test
         test_num_RUN;
         test_tool_RUN;
         test_plane_RUN;
+        test_game_SIMPLE;
         
         IF all_tests_passed THEN 
             ErrWrite \I, NumToStr(total_tests,0) + " TESTS PASSED", "";

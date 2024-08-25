@@ -7,7 +7,7 @@ MODULE M_Motion
     LOCAL CONST num MIDDLE := 2;
     LOCAL CONST num TOP := 3;
     
-    PROC motion_MOVE_DISC (VAR c_station station, c_disc disc_arr{*}, c_peg peg_arr{*}, num peg_number_from, num peg_number_to)
+    PROC motion_MOVE_DISC (INOUT c_station station, VAR c_station_io station_io, c_disc disc_arr{*}, c_peg peg_arr{*}, num peg_number_from, num peg_number_to)
         VAR num selected_disc;
         VAR num selected_disc_thickness;
         
@@ -59,13 +59,13 @@ MODULE M_Motion
 
         motion_PEG_REFERENCED_MOVE station.ee, from_peg, from_height_clearance;
         motion_PEG_REFERENCED_MOVE station.ee, from_peg, from_height_actuate;
-        ee_SET_ACTUATOR station.ee;
+        ee_SET_ACTUATOR station.ee, station_io.ee_io;
         motion_PEG_REFERENCED_MOVE station.ee, from_peg, from_height_clearance_with_disc;
         disc_arr_MOVE_DISC disc_arr, selected_disc, 0;
         
         motion_PEG_REFERENCED_MOVE station.ee, to_peg, to_height_clearance_with_disc;
         motion_PEG_REFERENCED_MOVE station.ee, to_peg, to_height_release;
-        ee_RELEASE_ACTUATOR station.ee;
+        ee_RELEASE_ACTUATOR station.ee, station_io.ee_io;
         disc_arr_MOVE_DISC disc_arr, selected_disc, peg_number_to;
         motion_PEG_REFERENCED_MOVE station.ee, to_peg, to_height_clearance;
     ENDPROC

@@ -6,11 +6,11 @@ Supplies
     - Calibration Disc
     - Calipers
 
-1. Define Probe
-    The probe is a simple tool used to define geometric aspects of the system, such as work objects.
+1. Define Stylus
+    The Stylus is a simple tool used to define geometric aspects of the system, such as work objects.
     
-    1.1 Install Probe on robot. Ensure this is done in a repeatable way, ideally with dowel pins or similar.
-        Ensure that a calibration object exists for tool calibration. My preferences is a 0.25" diameter metal rod ground to an acute point and mounted securely within the robot's reach.
+    1.1 Install Stylus on robot. Ensure this is done in a repeatable way, ideally with dowel pins or similar.
+        Ensure that a Calibration Object exists for tool calibration. My preferences is a 0.25" diameter metal rod ground to an acute point and mounted securely within the robot's reach.
         This is dangerous! Unmount and put away when not in use. Repeatable positioning is unimportant, but it must not move during TCP calibration, even if bumped by the robot.
         A vise works.
         
@@ -19,8 +19,8 @@ Supplies
         Please inform if the motion to the load detection position is not desirable. It can be altered to avoid obstacles, but right now, nothing is really defined in the space.    
         Setup -> Station -> Adjust LoadID Calibration Angle
     
-    1.3 Calibrate Load of Probe
-        Setup -> Station -> Probe Tool Setup -> Calibrate Tool Load
+    1.3 Calibrate Load of Stylus
+        Setup -> Stylus Tool Setup -> Calibrate Tool Load
         Automatic. Follow Prompts.
         
     1.4 Calibrate TCP of Probe
@@ -111,7 +111,6 @@ Supplies
         This will solve to End1, then cycle between all 3 pegs in a continuous manner.
     
 9. Station Control Status
-    Setup -> Toggle Control Status
     If the controller is in SOLO, it will work alone to finish the game.
     If the controller is in CONTROLLER, it will handshake with the other robot to complete the game together.
         This robot will retain the state of the game. The other robot will respond to move commands to assist.

@@ -52,13 +52,56 @@ IO_CONNECT_DI_WITH_MOCK (VAR signaldi from_signal, VAR signaldo from_signal_mock
 ### Related Information
 | For information about| See |
 |----------|----------|
-| IO_Signaldi | [IO_Signaldi](#IO_signaldi)   |
+|  | [Link Name](#Link)   |
 
 <br>
 <br>
 
 ---
 
-## IO_CONNECT_DO
+## IO_CONNECT_AI_WITH_MOCK - Short Description
+### Module: CM_IO
 
+### Usage
+Usage
 
+---
+### Basic Examples
+#### Example 1
+Example 1
+
+---
+### Arguments
+
+|Argument|Description|
+|-|-|
+| **from_signal** | argument full name <br> Data Type: **signalai** <br><br> Argument Function|
+| **from_signal_mock** | argument full name <br> Data Type: **signalao** <br><br> Argument Function|
+| **to_signal_alias** | argument full name <br> Data Type: **IO_signalai** <br><br> Argument Function|
+
+### Program Execution
+Program Execution
+
+---
+
+### Error Handling
+| Name| Cause of Error |
+|----------|----------|
+| ERROR | Cause of error   |
+
+---
+### Limitations
+Limitations
+
+---
+### Syntax
+Syntax
+
+---
+### Related Information
+| For information about| See |
+|----------|----------|
+|  | (Link Name](#Link)    |
+
+<br>
+<br>

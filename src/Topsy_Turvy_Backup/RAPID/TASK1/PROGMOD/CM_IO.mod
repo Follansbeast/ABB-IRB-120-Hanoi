@@ -32,21 +32,21 @@ MODULE CM_IO
         RETURN RobOS();
     ENDFUNC
     
-    PROC IO_CONNECT_DI_WITH_MOCK (VAR signaldi from_signal, VAR signaldo from_signal_mock, VAR IO_signaldi to_signal_alias)
+    PROC IO_CONNECT_DI (VAR IO_signaldi to_signal_alias, VAR signaldi from_signal, VAR signaldo from_signal_mock)
         AliasIO from_signal_mock, to_signal_alias.signal_mock;
         AliasIO from_signal, to_signal_alias.signal;
     ENDPROC
     
-    PROC IO_CONNECT_DO (VAR signaldo from_signal, VAR IO_signaldo to_signal)
+    PROC IO_CONNECT_DO (VAR IO_signaldo to_signal, VAR signaldo from_signal)
         AliasIO from_signal, to_signal.signal;
     ENDPROC
         
-    PROC IO_CONNECT_AI_WITH_MOCK (VAR IO_signalai signal_alias, VAR signalai signal, VAR signalao signal_mock)
-        AliasIO signal_mock, signal_alias.signal_mock;
-        AliasIO signal, signal_alias.signal;
+    PROC IO_CONNECT_AI (VAR IO_signalai to_signal_alias, VAR signalai from_signal, VAR signalao from_signal_mock)
+        AliasIO from_signal_mock, to_signal_alias.signal_mock;
+        AliasIO from_signal, to_signal_alias.signal;
     ENDPROC
     
-    PROC IO_CONNECT_AO (VAR signalao from_signal, VAR IO_signalao to_signal)
+    PROC IO_CONNECT_AO (VAR IO_signalao to_signal, VAR signalao from_signal)
         AliasIO from_signal, to_signal.signal;
     ENDPROC
     
@@ -98,7 +98,7 @@ MODULE CM_IO
     
     PROC IO_CONNECT_HANDSHAKE_TO_IO (VAR IO_handshake to_handshake, VAR signaldo rob_signal, VAR signaldi external_signal, VAR signaldo external_signal_mock)
          AliasIO rob_signal, to_handshake.signal_rob;
-         IO_CONNECT_DI_WITH_MOCK external_signal, external_signal_mock, to_handshake.signal_external;
+         IO_CONNECT_DI to_handshake.signal_external, external_signal, external_signal_mock;
     ENDPROC
     
     PROC IO_HANDSHAKE_SEND (VAR IO_handshake handshake)

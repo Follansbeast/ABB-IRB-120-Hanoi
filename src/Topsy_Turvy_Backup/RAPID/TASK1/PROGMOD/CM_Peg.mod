@@ -10,21 +10,6 @@ MODULE CM_Peg
         wobjdata wobj;
     ENDRECORD
     
-    PROC peg_arr_MENU (INOUT c_peg peg_arr{*})
-        VAR menu_selection selection;
-        VAR string menu_items{G_number_of_pegs};
-        
-        FOR i FROM 1 TO Dim(menu_items, 1) DO
-            menu_items{i} := "Set Peg Work Object, Peg " + NumToStr(i,0);
-        ENDFOR
-        
-        WHILE TRUE DO
-            selection := menu_LIST ("Peg Setup", menu_items, ["SELECT", "BACK"], \previous_selection := selection);
-            IF selection.button_selection = 2 RETURN;
-            peg_SET_WOBJ_DATA peg_arr{selection.list_selection}.wobj;
-        ENDWHILE
-    ENDPROC
-    
     PROC peg_SET_WOBJ_DATA (INOUT wobjdata wobj)
         ! Set up peg w/ work object data
         ! Use base plane from station as UFrrame
