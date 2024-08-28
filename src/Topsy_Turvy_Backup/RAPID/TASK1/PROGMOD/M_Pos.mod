@@ -1,4 +1,4 @@
-MODULE CM_Pos
+MODULE M_Pos
 
     FUNC bool pos_IS_EQUAL(pos pos1, pos pos2, \num tolerance)
         IF Present(tolerance) THEN

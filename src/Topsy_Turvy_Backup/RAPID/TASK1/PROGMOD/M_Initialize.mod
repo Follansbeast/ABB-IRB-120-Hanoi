@@ -1,8 +1,12 @@
 MODULE M_Initialize
     
+    ! Error number booking
+    VAR errnum ERR_PEG_NOT_ASSIGNED := -1;
+    
     PROC initialize (VAR c_station_io station_io)
         !initialize_STATION_IO station_io;
         initialize_EE_IO station_io.ee_io;
+        BookErrNo ERR_PEG_NOT_ASSIGNED;
     ENDPROC
     
     PROC initialize_STATION_IO (VAR c_station_io station_io)

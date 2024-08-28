@@ -1,15 +1,23 @@
 MODULE M_User
     
-    PROC user_GET_JOG_POINT(PERS tooldata TOOL, string point_description, \INOUT robtarget target, \INOUT jointtarget jtarget)
+    LOCAL PERS tooldata PERS_tool_local := [TRUE,[[0,0,0],[1,0,0,0]],[0,[0,0,0],[1,0,0,0],0,0,0]];
+    LOCAL PERS wobjdata PERS_wobj_local := [FALSE, TRUE, "",[[0, 0, 0],[1, 0, 0, 0]],[[0,0,0],[1,0,0,0]]];
+    
+    PROC user_GET_JOG_POINT(string point_description, \tooldata tool, \wobjdata wobj, \INOUT robtarget target, \INOUT jointtarget jtarget)
         ! Procedure prompts user to navigate robot tool to position, breaks, and then records the position in a robtarget
 
         VAR btnres queryAnswer;
         VAR robtarget target_local;
         VAR jointtarget jtarget_local;
         
+        PERS_tool_local := tool0;
+        IF Present(tool) PERS_tool_local := tool;
+        PERS_wobj_local := wobj0;
+        IF Present(wobj) PERS_wobj_local := wobj;
+        
         queryAnswer:=UIMessageBox(
             \Header:="User Jog Point"
-            \Message:="Jog robot to " + point_description + " then resume program."
+            \Message:="Jog robot to " + point_description + ". Resume program when complete."
             \Buttons:=btnOKCancel);
 
         ! If user presses OK : stop program so user can navigate robot TCP to required position.
@@ -20,7 +28,8 @@ MODULE M_User
         IF queryAnswer=resCancel RETURN;
 
         Stop \NoRegain;
-        target_local := CRobT(\Tool:=TOOL \WObj:=wobj0);
+        
+        target_local := CRobT(\Tool:=PERS_tool_local \WObj:=PERS_wobj_local);
         jtarget_local := CJointT();
         
         IF Present(target) target := target_local;

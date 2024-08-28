@@ -59,7 +59,7 @@ MODULE CM_Plane
         ENDIF
     ENDPROC
     
-    PROC plane_DEFINE_FRAME (INOUT pose plane_frame, INOUT wobjdata wobj, INOUT tooldata tool)
+    PROC plane_DEFINE_FRAME (INOUT pose plane_frame, wobjdata wobj, tooldata tool)
         CONST num plane_points_count := 10;
         VAR pos plane_points {plane_points_count};
         CONST num origin_points_count := 3;
@@ -93,17 +93,17 @@ MODULE CM_Plane
                 CASE 1: ! DEFINE
                     TEST selection.list_selection
                         CASE 1: 
-                            user_GET_JOG_POINT tool, "Y Axis Point 1", \target:= user_jog_point;
+                            user_GET_JOG_POINT "Y Axis Point 1", \tool := tool, \target:= user_jog_point;
                             origin_points{1} := user_jog_point.trans;
                         CASE 2:
-                            user_GET_JOG_POINT tool, "Y Axis Point 2", \target:= user_jog_point;
+                            user_GET_JOG_POINT "Y Axis Point 2", \tool := tool, \target:= user_jog_point;
                             origin_points{2} := user_jog_point.trans;
                         CASE 3:
-                            user_GET_JOG_POINT tool, "X Axis Point 1", \target:= user_jog_point;
+                            user_GET_JOG_POINT "X Axis Point 1", \tool := tool, \target:= user_jog_point;
                             origin_points{3} := user_jog_point.trans;
                         DEFAULT:
                             plane_point_index := selection.list_selection - 3;
-                            user_GET_JOG_POINT tool, "Plane Point " + NumToStr(plane_point_index,0), \target:= user_jog_point;
+                            user_GET_JOG_POINT "Plane Point " + NumToStr(plane_point_index,0), \tool := tool, \target:= user_jog_point;
                             plane_points{plane_point_index} := user_jog_point.trans;
                     ENDTEST
                     

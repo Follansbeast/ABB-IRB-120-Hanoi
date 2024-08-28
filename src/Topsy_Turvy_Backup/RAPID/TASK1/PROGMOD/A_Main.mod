@@ -1,11 +1,10 @@
 MODULE A_Main
     
-    ! Declare data
-    
+    CONST bool test_mode := TRUE;
     ! Global constants. These are used to define arrays throughout the program.
     ! Will need to update PERS variables below in the event that these are changed.
-    CONST num G_number_of_pegs := 3;
-    CONST num G_number_of_discs := 9;
+    CONST num G_ToH_number_of_pegs := 3;
+    CONST num G_ToH_number_of_discs := 9;
     
     ! Persistent state storage, direct access is strictly local.
     
@@ -34,13 +33,13 @@ MODULE A_Main
         ];
 
     
-    LOCAL PERS c_peg PERS_peg_arr{G_number_of_pegs} := [
+    LOCAL PERS c_peg PERS_peg_arr{G_ToH_number_of_pegs} := [
         [[FALSE, FALSE, "",[[0, 0, 0],[0, 0, 0, 0]],[[0,0,0],[0,0,0,0]]]],
         [[FALSE, FALSE, "",[[0, 0, 0],[0, 0, 0, 0]],[[0,0,0],[0,0,0,0]]]],
         [[FALSE, FALSE, "",[[0, 0, 0],[0, 0, 0, 0]],[[0,0,0],[0,0,0,0]]]]
         ];
     
-    LOCAL PERS c_disc PERS_disc_arr{G_number_of_discs} := [
+    LOCAL PERS c_disc PERS_disc_arr{G_ToH_number_of_discs} := [
         [0,0,0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0,0,0],
@@ -55,6 +54,10 @@ MODULE A_Main
     PROC main()
         VAR c_station_io station_io;
         initialize station_io;
+        IF test_mode = TRUE and RobOS() = False THEN
+            test_RUN_TESTS;
+            RETURN;
+        ENDIF
         menu_MAIN PERS_station, station_io, PERS_peg_arr, PERS_disc_arr;
     ENDPROC
     

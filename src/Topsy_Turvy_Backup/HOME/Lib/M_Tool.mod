@@ -1,5 +1,7 @@
 MODULE M_Tool
     
+    ! Generic purpose tool definition module
+    
     PROC tool_DEFINE_TOOL_MENU (INOUT tooldata tool, string tool_name, \num calibration_angle)
         VAR menu_selection selection;
         VAR string menu_items{2} := [
@@ -64,7 +66,7 @@ MODULE M_Tool
     ENDFUNC
     
     PROC tool_DEFINE_LOAD (INOUT tooldata tool, \num calibration_angle)
-        VAR btnres queryAnswer;
+        VAR btnres query_answer;
         VAR num load_accuracy;
         VAR robtarget current_target;
         VAR jointtarget cal_target:=[[0,0,0,0,0,0],[9E9,9E9,9E9,9E9,9E9,9E9]];
@@ -75,7 +77,7 @@ MODULE M_Tool
         
         current_target := CRobT (\Tool:=tool0, \WObj:=wobj0);
         
-        queryAnswer:=UIMessageBox(
+        query_answer:=UIMessageBox(
             \Header:="Proceed with Robot Motion?"
             \Msgarray:=[
                 "Robot will move to load calibration position.",
@@ -85,11 +87,11 @@ MODULE M_Tool
                 ]
             \Buttons:=btnOKCancel);
             
-        IF queryAnswer = 2 RETURN;
+        IF query_answer = 2 RETURN;
         
         MoveJ CalcRobT(cal_target, tool0, \WObj:=wobj0), v200, fine, tool0 \WObj:=wobj0;
         
-        queryAnswer:=UIMessageBox(
+        query_answer:=UIMessageBox(
             \Header:="Proceed With Calibration?"
             \Msgarray:=[
                 "Robot in calibration position.",
@@ -100,8 +102,8 @@ MODULE M_Tool
                 ]
             \BtnArray:=["OK", "CANCEL", "GO BACK"]);
             
-        IF queryAnswer = 2 RETURN;
-        IF queryAnswer = 3 THEN
+        IF query_answer = 2 RETURN;
+        IF query_answer = 3 THEN
             MoveJ current_target, v200, fine, tool0 \WObj:=wobj0;
             RETURN;
         ENDIF
@@ -112,7 +114,7 @@ MODULE M_Tool
         UnLoad "RELEASE:/system/mockit.sys";
         UnLoad "RELEASE:/system/mockit1.sys";
         
-        queryAnswer:=UIMessageBox(
+        query_answer:=UIMessageBox(
             \Header:="Load Calibration Complete"
             \Msgarray:=[
                 "Calibration Complete.",
@@ -124,7 +126,7 @@ MODULE M_Tool
                 ]
             \BtnArray:=["ACCEPT", "ACCEPT AND GO BACK", "CANCEL"]);
             
-        TEST queryAnswer
+        TEST query_answer
             CASE 1:
             CASE 2: 
                 MoveJ current_target, v200, fine, tool0 \WObj:=wobj0;

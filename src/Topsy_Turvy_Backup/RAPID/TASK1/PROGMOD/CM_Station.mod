@@ -6,7 +6,7 @@ MODULE CM_Station
     
     RECORD c_station
         c_EE ee;
-        tooldata probe;
+        tooldata stylus;
         num peg_clearance;
         c_num_props peg_clearance_props;
         c_disc_props disc_props;
@@ -32,5 +32,17 @@ MODULE CM_Station
         IO_signaldi partner_clear_of_uframe;
         IO_signaldo partner_clear_of_uframe_readback;
     ENDRECORD
+    
+    PROC station_DEFINE_BASE_PLANE (VAR c_station station)
+        Load \Dynamic, diskhome \File:="lib/M_Tool.mod";
+        plane_DEFINE_FRAME station.user_frame, wobj0, station.stylus;
+        EraseModule "M_Tool";
+    ENDPROC
+    
+    PROC station_DEFINE_STYLUS (c_station station)
+        Load \Dynamic, diskhome \File:="lib/M_Tool.mod";
+        %"tool_DEFINE_TOOL_MENU"% station.stylus, "Stylus", \calibration_angle := station.calibration_angle;
+        EraseModule "M_Tool";
+    ENDPROC
     
 ENDMODULE

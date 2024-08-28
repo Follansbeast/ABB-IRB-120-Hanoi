@@ -59,10 +59,11 @@ MODULE M_Menu
     
     PROC menu_SYSTEM_SETUP (INOUT c_station station, VAR c_station_io station_io, INOUT c_peg peg_arr{*}, INOUT c_disc disc_arr{*})
         VAR menu_selection selection;
-        VAR string menu_items{9} := [
+        VAR string menu_items{10} := [
             "Adjust LoadID Calibration Angle",
             "Define Stylus Tool",
-            "Set User Frame Plane and Origin",
+            "Set User Frame Plane and Origin, Keep Peg Wobjs in Place",
+            "Set User Frame Plane and Origin, Alter Peg Wobjs",
             "Define Peg Work Objects",
             "Configure End Effector",
             "Define End Effector",
@@ -76,8 +77,11 @@ MODULE M_Menu
             if selection.button_selection = 2 RETURN;
             TEST selection.list_selection
                 CASE 1: num_props_MENU station.calibration_angle, station.calibration_angle_props;
-                CASE 2: tool_DEFINE_TOOL_MENU station.probe, "Stylus", \calibration_angle := station.calibration_angle;
-                CASE 3: plane_DEFINE_FRAME station.user_frame, wobj0, station.probe;
+                CASE 2: station_DEFINE_STYLUS station;
+                CASE 3: station_DEFINE_BASE_PLANE station;
+                    peg_arr_SET_UFRAME peg_arr,station.user_frame, \maintain_global_pos;
+                CASE 4: station_DEFINE_BASE_PLANE station;
+                    peg_arr_SET_UFRAME peg_arr,station.user_frame;
                 CASE 4: menu_DEFINE_PEGS peg_arr;
                 CASE 5: menu_EE_SETUP station.ee, station_io.ee_io \calibration_angle := station.calibration_angle;
                 CASE 6: 
@@ -94,6 +98,8 @@ MODULE M_Menu
         VAR num calibration_angle_local := 0;
         IF Present(calibration_angle) calibration_angle_local := calibration_angle;
         
+        Load \Dynamic, diskhome \File:="lib/M_Tool.mod";
+        
         WHILE TRUE DO
             menu_items{1} := "Calibrate Tool Load via LoadID";
             menu_items{2} := "Calibrate Tool Center Point";
@@ -109,7 +115,7 @@ MODULE M_Menu
                 CASE 2: RETURN;
                 CASE 1:
                     TEST selection.list_selection
-                        CASE 1: tool_DEFINE_LOAD ee.tool_data, \calibration_angle:= calibration_angle_local;
+                        CASE 1: %"tool_DEFINE_LOAD"% ee.tool_data, \calibration_angle:= calibration_angle_local;
                         CASE 2: !Probably need an alternative way to calculate TCP than 4 pt
                         CASE 3: 
                             IF ee.has_actuation_signal
@@ -136,6 +142,9 @@ MODULE M_Menu
                     ENDTEST
             ENDTEST
         ENDWHILE
+        
+        EraseModule "M_Tool";
+        
     ENDPROC
     
     PROC ee_TEST_MENU (INOUT c_ee ee, VAR c_ee_io ee_io)
@@ -172,7 +181,7 @@ MODULE M_Menu
     
     PROC menu_DISC_THICKNESS (INOUT c_disc disc_arr{*}, c_disc_props disc_props)
         VAR menu_selection selection;
-        VAR string menu_items{G_number_of_discs};
+        VAR string menu_items{G_ToH_number_of_discs};
         VAR num peg_number;
         VAR string peg_number_string;
         
@@ -189,7 +198,7 @@ MODULE M_Menu
     
     PROC menu_DEFINE_PEGS (INOUT c_peg peg_arr{*})
         VAR menu_selection selection;
-        VAR string menu_items{G_number_of_pegs};
+        VAR string menu_items{G_ToH_number_of_pegs};
         
         FOR i FROM 1 TO Dim(menu_items, 1) DO
             menu_items{i} := "Set Peg Work Object, Peg " + NumToStr(i,0);
@@ -198,7 +207,7 @@ MODULE M_Menu
         WHILE TRUE DO
             selection := menu_LIST ("Peg Setup", menu_items, ["SELECT", "BACK"], \previous_selection := selection);
             IF selection.button_selection = 2 RETURN;
-            peg_SET_WOBJ_DATA peg_arr{selection.list_selection}.wobj;
+            peg_SET_WOBJ_DATA peg_arr{selection.list_selection};
         ENDWHILE
     ENDPROC
     

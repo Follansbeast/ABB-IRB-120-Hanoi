@@ -3,12 +3,9 @@ MODULE M_Test
     LOCAL VAR bool all_tests_passed;
     LOCAL VAR num failed_tests;
     LOCAL VAR num total_tests;
-    LOCAL VAR num test_display;
-    LOCAL CONST num ALL := 0;
-    LOCAL CONST num FAILING_ONLY := 1;
-    LOCAL CONST num NONE := 2;
+    LOCAL VAR bool tests_running := FALSE;
     
-    PROC assert(bool condition, string title, \string details)
+    PROC assert(bool condition, string title, \string details, \switch display_passing)
         VAR string message := "";
         IF present (details) message := details;
         
@@ -16,13 +13,11 @@ MODULE M_Test
         
         IF NOT condition THEN
             ! If the assertion fails, log the message and set test status to FALSE
-            IF test_display = ALL OR test_display = FAILING_ONLY THEN
-                ErrWrite "ASSERTION FAILED: " + title, message;
-                all_tests_passed := FALSE;
-                failed_tests := failed_tests + 1;
-            ENDIF
+            ErrWrite "ASSERTION FAILED: " + title, message;
+            all_tests_passed := FALSE;
+            failed_tests := failed_tests + 1;
         ELSE
-            IF test_display = ALL THEN
+            IF Present(display_passing) THEN
                 ! Optionally, log a success message
                 ErrWrite \I, "ASSERTION PASSED: " + title, message;
             ENDIF
@@ -34,13 +29,27 @@ MODULE M_Test
         failed_tests := 0;
         total_tests := 0;
         
-        test_display := 1;
+        tests_running := TRUE;
+        
         !test_MOTION;
         test_disc_RUN;
         test_num_RUN;
-        test_tool_RUN;
-        test_plane_RUN;
-        test_game_SIMPLE;
+        
+        Load \Dynamic, diskhome \File:="lib/M_Tool.mod";
+        Load \Dynamic, diskhome \File:="testing/M_Tool_T.mod";
+        %"test_tool_RUN"%;
+        EraseModule "M_Tool";
+        EraseModule "M_Tool_T";
+        
+        Load \Dynamic, diskhome \File:="testing/CM_Plane_T.mod";
+        %"test_plane_RUN"%;
+        EraseModule "CM_Plane_T";
+        
+        Load \Dynamic, diskhome \File:="testing/M_Game_T.mod";
+        %"test_game_RUN"%;
+        EraseModule "M_Game_T";
+        
+        tests_running := FALSE;
         
         IF all_tests_passed THEN 
             ErrWrite \I, NumToStr(total_tests,0) + " TESTS PASSED", "";
@@ -50,4 +59,7 @@ MODULE M_Test
         ErrWrite \I, NumToStr (failed_tests,0) + "/" + NumToStr(total_tests,0) + " FAILED", "";
     ENDPROC
     
+    FUNC bool test_RUNNING ()
+        RETURN tests_running;
+    ENDFUNC
 ENDMODULE

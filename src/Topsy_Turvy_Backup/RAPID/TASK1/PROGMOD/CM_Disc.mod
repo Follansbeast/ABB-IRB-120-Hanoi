@@ -3,31 +3,31 @@ MODULE CM_Disc
     RECORD c_disc
         num thickness;
         num peg_current;
-        num peg_end_1;
-        num peg_end_2;
-        num peg_end_3;
-        num peg_end_4;
-        num peg_end_5;
-        num peg_end_6;
-        num peg_end_7;
-        num peg_end_8;
-        num peg_end_9;
-        num peg_end_10;
-    ENDRECORD
-    
-    RECORD c_disc_move
-        num disc;
-        num peg;
+        num peg_target_1;
+        num peg_target_2;
+        num peg_target_3;
+        num peg_target_4;
+        num peg_target_5;
+        num peg_target_6;
+        num peg_target_7;
+        num peg_target_8;
+        num peg_target_9;
+        num peg_target_10;
     ENDRECORD
     
     RECORD c_disc_props
         c_num_props thickness_props;
-    ENDRECORD
+    ENDRECORD 
     
     FUNC string disc_arr_GET_DISC_SUMMARY (INOUT c_disc disc_arr{*}, \num peg_number)
-        VAR string peg_summary{G_number_of_pegs + 1};
+        ! Return a summary of which discs are on which pegs, as a string.
+        ! Select the peg number to only return the discs on that peg
+        !   Peg 0 returns any discs not currently on a peg
+        
+        VAR string peg_summary{G_ToH_number_of_pegs + 1};
         VAR bool has_discs{3} := [FALSE, FALSE, FALSE];
         VAR string total_summary;
+        VAR errnum NO_SUCH_PEG := 1;
         
         VAR num selected_peg;
         FOR i FROM 1 TO dim(disc_arr,1) DO
@@ -37,12 +37,14 @@ MODULE CM_Disc
             ELSE
                 peg_summary{Dim(peg_summary,1)} := peg_summary{4} + NumToStr(i,0) + ", ";
             ENDIF
+            
         ENDFOR
         FOR i FROM 1 TO dim(peg_summary, 1) DO
             IF StrLen(peg_summary{i}) > 0 peg_summary{i} := StrPart(peg_summary{i}, 1, StrLen(peg_summary{i}) - 2);
             peg_summary{i} := "[" + peg_summary{i} + "]";
         ENDFOR
         
+        IF present (peg_number) AND peg_number > G_ToH_number_of_pegs RAISE NO_SUCH_PEG;
         IF present (peg_number) AND peg_number = 0 RETURN peg_summary{dim(peg_summary,1)};
         IF present (peg_number) RETURN peg_summary{peg_number};
         
@@ -54,6 +56,13 @@ MODULE CM_Disc
             ENDIF
         ENDFOR
         RETURN total_summary;
+        
+        ERROR
+            TEST ERRNO
+                CASE NO_SUCH_PEG:
+                    IF NOT test_RUNNING() ErrWrite \W, "Peg selection out of bounds", "disc_arr_GET_DISC_SUMMARY was called with non-existent peg";
+                    RETURN "";
+            ENDTEST
     ENDFUNC
     
     FUNC num disc_arr_GET_TOP_DISC (c_disc disc_arr{*}, num peg_number)

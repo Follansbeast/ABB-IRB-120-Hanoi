@@ -2,8 +2,8 @@ MODULE M_Storage
     
     PROC storage_LOAD_CURRENT_DATA (VAR c_station station, c_peg peg_arr{*}, c_disc disc_arr{*})
         VAR string file_path := "HOME:/Data Current/";
-        VAR string low_frequency_file := "M_Storage_Low_Frequency.MOD";
-        VAR string high_frequency_file := "M_Storage_High_Frequency.MOD";
+        VAR string low_frequency_file := "M_Storage_Low_Frequency.mod";
+        VAR string high_frequency_file := "M_Storage_High_Frequency.mod";
         Load \Dynamic, file_path, \File:= low_frequency_file;
         Load \Dynamic, file_path, \File:= high_frequency_file;
         
@@ -13,8 +13,8 @@ MODULE M_Storage
     
     PROC storage_SAVE_CURRENT_DATA (VAR c_station station, c_peg peg_arr{*}, c_disc disc_arr{*})
         VAR string file_path := "HOME:/Data Current/";
-        VAR string low_frequency_file := "M_Storage_Low_Frequency.MOD";
-        VAR string high_frequency_file := "M_Storage_High_Frequency.MOD";
+        VAR string low_frequency_file := "M_Storage_Low_Frequency.mod";
+        VAR string high_frequency_file := "M_Storage_High_Frequency.mod";
         Load \Dynamic, file_path, \File:= low_frequency_file;
         Load \Dynamic, file_path, \File:= high_frequency_file;
         
@@ -26,7 +26,7 @@ MODULE M_Storage
     
     PROC storage_SAVE_CURRENT_HF_DATA (c_disc disc_arr{*})
         VAR string file_path := "HOME:/Data Current/";
-        VAR string high_frequency_file := "M_Storage_High_Frequency.MOD";
+        VAR string high_frequency_file := "M_Storage_High_Frequency.mod";
         Load \Dynamic, file_path, \File:= high_frequency_file;
         
         storage_SAVE_HF disc_arr;
