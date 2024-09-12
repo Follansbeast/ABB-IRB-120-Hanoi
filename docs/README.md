@@ -3,40 +3,39 @@ Re: Chris Boden @Physicsduck
 
 
 ## Project Description
-- Get “Topsy” / “Turvy”, two ABB IRB 120 M2004 robots working and solve the Tower of Hanoi problem.\
-- The problem involves moving 10 rings from one pole to another, one at a time.\
-- The smallest ring is ~¾” in diameter. 
-- The largest ring is ~1 ⅞”  in diameter. 
-- The rings are all ¼” thick.
-- The diameter of the posts is ~¼”. 
-- Post A is ~2 ⅜” from Post B on center. 
-- Post B is ~3 7/16” from Post C on center. 
+- Educate!
+- Inspire!!
+- Entertain!!!
+- Get “Topsy” / “Turvy”, two ABB IRB 120 M2004 robots working and solve the Tower of Hanoi problem.
 
-## Project Documentation
-### Robot Documentation
-RobotStudio Download : https://campaign-ra.abb.com/l/961042/2023-07-28/5qrllq \
-Product Manual : https://library.e.abb.com/public/e6617595547fc6c2c1257cc5004451bd/Operating%20manual_Trouble%20shooting_3HAC020738-001_revK_en.pdf 
-ABB Library : https://library.abb.com/r?cid=9AAC190651
-### Code Documentation
-RobotStudio Docs : https://library.e.abb.com/public/244a8a5c10ef8875c1257b4b0052193c/3HAC032104-001_revD_en.pdf \
-Github Markdown : README.md
+## ABB Documentation
+[RobotStudio Download](https://campaign-ra.abb.com/l/961042/2023-07-28/5qrllq)
+
+<br>
+
+[IRB 120 Product Specification](https://library.e.abb.com/public/429d251dbce44b049ba7d6107a422de0/3HAC035960%20PS%20IRB%20120-en.pdf)
+
+[Robot Studio Operating Manual](https://search.abb.com/library/Download.aspx?DocumentID=3HAC032104-001&LanguageCode=en&DocumentPartId=&Action=Launch)
+
+[RAPID Overview](https://search.abb.com/library/Download.aspx?DocumentID=3HAC050947-001&LanguageCode=en&DocumentPartId=&Action=Launch)
+
+[RAPID Instructions, Functions and Data Types](https://library.e.abb.com/public/b227fcd260204c4dbeb8a58f8002fe64/Rapid_instructions.pdf)
+
+[IRC5 System Parameters](https://search.abb.com/library/Download.aspx?DocumentID=3HAC050948-001&LanguageCode=en&DocumentPartId=&Action=Launch)
+
+[RAPID Kernal](https://library.e.abb.com/public/f23f1c3e506a4383b635cff165cc6993/3HAC050946+TRM+RAPID+Kernel+RW+6-en.pdf?x-sign=oUq9VZeSx%2Fve4%2BCCAYZVeAQoLxtMdzw6S2BkJobVIFhUVtPrZ8dmV1VIHdk%2B6Yfg)
+
+<br>
+
+[ABB Library](https://library.abb.com/r?cid=9AAC190651)
 
 
-## Algorithms, Programs & Models
-Tower of Hanoi \
-Hanoi Tower Dimensions \
-Spacing Rod to Rod (~50-55mm center) \
-Smallest Ring Width (~20mm) \
-Largest Ring Width (~50mm) \
-Ring Height (~7.5mm) \
-
-### Tower of Hanoi Algorithm Explanation:
-- https://youtu.be/2SUvWfNJSsM?si=iz1iWLj1UrOylzw0 
-- https://www.geeksforgeeks.org/c-program-for-tower-of-hanoi/ 
-- https://www.geeksforgeeks.org/python-program-for-tower-of-hanoi/
-- https://www.sanfoundry.com/csharp-program-tower-of-hanoi/ 
-
-### 3D Models
-- Motor Specifications - https://statics3.seeedstudio.com/images/opl/datasheet/316030062.pdf 
-- 3D Gripper Model V1 (Developed by Leonhard)  - https://discord.com/channels/535160602608533525/653087890599051276/1268969889977073724 
-- 3D Gripper Model V2 (Developed by Leonhard)  - https://discord.com/channels/535160602608533525/653087890599051276/1269336419298447481 
+## Tower of Hanoi Specifications
+- Spacing Rod to Rod (~50-55mm center)
+- A to B: ~2 ⅜”
+- B to C: ~3 7/16”
+- 10 rings
+- Smallest Ring Diameter (19.05mm, 0.750”)
+- Largest Ring Diameter (47.625mm, 1.875”)
+- Post Diameter (6.35mm, 0.25")
+- Ring Height (6.35mm, 0.25")
